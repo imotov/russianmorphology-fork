@@ -44,6 +44,9 @@ public class MorphologyFilter extends TokenFilter {
             if (!b) {
                 return false;
             }
+            if (termAtt.length() == 0) {
+                return true;
+            }
             String s = new String(termAtt.buffer(),0,termAtt.length());
             if (luceneMorph.checkString(s)) {
                 iterator = luceneMorph.getNormalForms(s).iterator();
