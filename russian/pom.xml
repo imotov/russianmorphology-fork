@@ -2,20 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <artifactId>morphology</artifactId>
-        <groupId>org.apache.lucene.morphology</groupId>
+        <groupId>org.motovs.lucene.morphology</groupId>
         <version>4.6-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.apache.lucene.morphology</groupId>
+    <groupId>org.motovs.lucene.morphology</groupId>
     <artifactId>russian</artifactId>
     <name>russian</name>
     <version>4.6-SNAPSHOT</version>
     <url>http://maven.apache.org</url>
     <dependencies>
 
-
         <dependency>
-            <groupId>org.apache.lucene.morphology</groupId>
+            <groupId>org.motovs.lucene.morphology</groupId>
             <artifactId>morph</artifactId>
             <version>4.6-SNAPSHOT</version>
         </dependency>
