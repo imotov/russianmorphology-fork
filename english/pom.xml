@@ -3,20 +3,20 @@
     <parent>
         <artifactId>morphology</artifactId>
         <groupId>org.motovs.lucene.morphology</groupId>
-        <version>4.6.0</version>
+        <version>4.6.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.motovs.lucene.morphology</groupId>
     <artifactId>english</artifactId>
     <name>english</name>
-    <version>4.6.0</version>
+    <version>4.6.1-SNAPSHOT</version>
     <url>http://maven.apache.org</url>
     <dependencies>
 
         <dependency>
             <groupId>org.motovs.lucene.morphology</groupId>
             <artifactId>morph</artifactId>
-            <version>4.6.0</version>
+            <version>4.6.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
