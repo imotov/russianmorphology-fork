@@ -19,16 +19,21 @@ package org.apache.lucene.morphology.analyzer;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.morphology.LuceneMorphology;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class MorphologyFilter extends TokenFilter {
     private LuceneMorphology luceneMorph;
     private Iterator<String> iterator;
+    private State state;
+
     private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
+    private final PositionIncrementAttribute posIncrAtt = addAttribute(PositionIncrementAttribute.class);
 
 
     public MorphologyFilter(TokenStream tokenStream, LuceneMorphology luceneMorph) {
@@ -36,27 +41,40 @@ public class MorphologyFilter extends TokenFilter {
         this.luceneMorph = luceneMorph;
     }
 
-
-   final public boolean incrementToken() throws IOException {
-        while (iterator == null || !iterator.hasNext()) {
+    final public boolean incrementToken() throws IOException {
+        if (iterator != null) {
+            if (iterator.hasNext()) {
+                restoreState(state);
+                posIncrAtt.setPositionIncrement(0);
+                termAtt.setEmpty().append(iterator.next());
+                return true;
+            } else {
+                state = null;
+                iterator = null;
+            }
+        }
+        while (true) {
             boolean b = input.incrementToken();
             if (!b) {
                 return false;
             }
-            if (termAtt.length() == 0) {
-                return true;
+            if (termAtt.length() > 0) {
+                String s = new String(termAtt.buffer(), 0, termAtt.length());
+                if (luceneMorph.checkString(s)) {
+                    List<String> forms = luceneMorph.getNormalForms(s);
+                    if (forms.isEmpty()) {
+                        continue;
+                    } else if (forms.size() == 1) {
+                        termAtt.setEmpty().append(forms.get(0));
+                    } else {
+                        state = captureState();
+                        iterator = forms.iterator();
+                        termAtt.setEmpty().append(iterator.next());
+                    }
+                }
             }
-            String s = new String(termAtt.buffer(),0,termAtt.length());
-            if (luceneMorph.checkString(s)) {
-                iterator = luceneMorph.getNormalForms(s).iterator();
-            } else {
-                return true;
-            }
+            return true;
         }
-        String s = iterator.next();
-        termAtt.setEmpty();
-        termAtt.append(s);
-        return true;
     }
 
 }
