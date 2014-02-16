@@ -1,0 +1,35 @@
+Fork of Russian and English morphology for java
+===============================================
+
+This is a fork of Russian and English morphology for java and lucene 3.0 framework by Alexander.A.Kuznetsov. It was updated to work with
+Lucene 4.0 and above. The original project can be found at: https://code.google.com/p/russianmorphology/
+
+To use, add the following repository:
+
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/imotov/elasticsearch-plugins</url>
+        </repository>
+
+
+and dependencies:
+
+
+        <dependency>
+            <groupId>org.motovs.lucene.morphology</groupId>
+            <artifactId>russian</artifactId>
+            <version>4.6.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.motovs.lucene.morphology</groupId>
+            <artifactId>english</artifactId>
+            <version>4.6.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+to your project.
