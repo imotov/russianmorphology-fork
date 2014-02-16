@@ -47,10 +47,10 @@ public class MorphologyAnalyzer extends Analyzer {
 
     @Override
     protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
-        Tokenizer tokenizer = new StandardTokenizer(Version.LUCENE_41, reader);
+        Tokenizer tokenizer = new StandardTokenizer(Version.LUCENE_46, reader);
         TokenStream tokenStream = tokenizer;
-        tokenStream = new StandardFilter(Version.LUCENE_41,tokenStream);
-        tokenStream = new LowerCaseFilter(Version.LUCENE_41,tokenStream);
+        tokenStream = new StandardFilter(Version.LUCENE_46,tokenStream);
+        tokenStream = new LowerCaseFilter(Version.LUCENE_46,tokenStream);
         tokenStream = new MorphologyFilter(tokenStream, luceneMorph);
         return new TokenStreamComponents(tokenizer, tokenStream);
     }
