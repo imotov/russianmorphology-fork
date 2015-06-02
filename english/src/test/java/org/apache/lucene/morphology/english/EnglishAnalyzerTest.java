@@ -17,7 +17,10 @@
 package org.apache.lucene.morphology.english;
 
 import org.apache.lucene.analysis.BaseTokenStreamTestCase;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.Test;
+import org.junit.Assert;
 
 import java.io.IOException;
 
@@ -34,5 +37,28 @@ public class EnglishAnalyzerTest extends BaseTokenStreamTestCase {
                 new String[]{"<ALPHANUM>", "<ALPHANUM>", "<ALPHANUM>", "<ALPHANUM>"},
                 new int[]{1, 1, 0, 1}
         );
+    }
+
+    @Test
+    public void testEmptyString() throws IOException {
+        EnglishAnalyzer englishAnalyzer = new EnglishAnalyzer();
+
+        assertSimpleTSOutput(
+                englishAnalyzer.tokenStream("test", "Some text with t and lng"),
+                new String[]{"some", "text", "with", "t", "and", "lng"}
+        );
+    }
+
+    public static void assertSimpleTSOutput(TokenStream stream, String[] expected) throws IOException {
+        stream.reset();
+        CharTermAttribute termAttr = stream.getAttribute(CharTermAttribute.class);
+        Assert.assertNotNull(termAttr);
+        int i = 0;
+        while (stream.incrementToken()) {
+            Assert.assertTrue("got extra term: " + termAttr.toString(), i < expected.length);
+            Assert.assertEquals("expected different term at index " + i, expected[i], termAttr.toString());
+            i++;
+        }
+        Assert.assertEquals("not all tokens produced", expected.length, i);
     }
 }
